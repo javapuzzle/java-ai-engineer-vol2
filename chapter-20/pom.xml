@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.4</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.acme.retail.rag</groupId>
+    <artifactId>chapter-20</artifactId>
+    <version>1.0.0</version>
+    <name>chapter-20-capstone-knowledge-assistant</name>
+    <description>
+        Volume 2 Capstone -- Acme Retail's Knowledge Assistant. Composes
+        adaptive routing (Chapter 12), permission-scoped access filtering
+        (Chapter 18), corrective relevance grading (Chapter 12), and a
+        security release gate (Chapter 17's evaluate-then-gate discipline,
+        Volume 1 Chapter 20's diagnose/verify/recover loop) into one
+        pipeline, then reproduces and fixes a real caching-layer permission
+        leak discovered live during Sarah's design review.
+    </description>
+
+    <properties>
+        <java.version>21</java.version>
+        <spring-ai.version>1.0.3</spring-ai.version>
+    </properties>
+
+    <!--
+        spring-ai-vector-store is not resolvable in this build environment
+        (no network path to Maven Central, only a corporate mirror that has
+        never cached it; confirmed by a direct `mvn dependency:get`
+        failure). spring-ai-model and spring-ai-commons (EmbeddingModel,
+        Document, PromptTemplate) ARE cached and used below. The version
+        overrides exist because spring-ai-model 1.0.3 declares transitive
+        versions one patch release away from what this offline mirror
+        happens to have cached; these pin to the nearest cached,
+        binary-compatible patch version so resolution succeeds without a
+        network call.
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-messaging</artifactId>
+                <version>6.2.8</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>6.2.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.19.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jsonSchema</artifactId>
+                <version>2.19.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>2.19.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-observation</artifactId>
+                <version>1.15.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-core</artifactId>
+                <version>1.15.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-tracing</artifactId>
+                <version>1.5.2</version>
+            </dependency>
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-core</artifactId>
+                <version>3.7.7</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-model</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-commons</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

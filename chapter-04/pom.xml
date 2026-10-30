@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.4</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.acme.retail.rag</groupId>
+    <artifactId>chapter-04</artifactId>
+    <version>1.0.0</version>
+    <name>chapter-04-vector-databases-concepts-and-tradeoffs</name>
+    <description>
+        Volume 2, Chapter 4 -- Vector Databases: Concepts and Tradeoffs. A
+        brute-force, exact nearest-neighbor search over an in-memory list,
+        correct by construction, used to demonstrate why linear scan stops
+        being viable long before Acme Retail's real document count.
+    </description>
+
+    <properties>
+        <java.version>21</java.version>
+        <spring-ai.version>1.0.3</spring-ai.version>
+    </properties>
+
+    <!--
+        spring-ai-vector-store (the artifact that ships VectorStore) is not
+        resolvable in this build environment: there is no network path to
+        Maven Central here, only a corporate mirror that has never cached it,
+        confirmed by a direct `mvn dependency:get` failure. spring-ai-model
+        and spring-ai-commons (EmbeddingModel, Embedding, Document) ARE
+        cached and used below. The version overrides exist because
+        spring-ai-model 1.0.3 declares transitive versions (e.g.
+        spring-messaging 6.2.7) one patch release away from what this
+        offline mirror happens to have cached; these pin to the nearest
+        cached, binary-compatible patch version so resolution succeeds
+        without a network call.
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-messaging</artifactId>
+                <version>6.2.8</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>6.2.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.19.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jsonSchema</artifactId>
+                <version>2.19.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>2.19.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-observation</artifactId>
+                <version>1.15.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-core</artifactId>
+                <version>1.15.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-tracing</artifactId>
+                <version>1.5.2</version>
+            </dependency>
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-core</artifactId>
+                <version>3.7.7</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-model</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-commons</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.4</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.acme.retail.rag</groupId>
+    <artifactId>chapter-12</artifactId>
+    <version>1.0.0</version>
+    <name>chapter-12-corrective-adaptive-agentic-rag</name>
+    <description>
+        Volume 2, Chapter 12 -- When One Retrieval Strategy Isn't Enough.
+        Corrective RAG: grades retrieved chunks for relevance before
+        generation and refuses to answer confidently from an irrelevant
+        one. Adaptive RAG: routes a question to the retrieval strategy it
+        actually needs. Agentic RAG is introduced by scenario only in the
+        manuscript -- no module here, per the blueprint's override; it is
+        deferred to Semester 3 (Agentic AI &amp; MCP).
+    </description>
+
+    <properties>
+        <java.version>21</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
